@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<div class="time-slot" th:each="hour : ${#numbers.sequence(9, 20)}">
+    <div th:text="${hour + ':00'}"></div>
+    <!-- Check if there are bookings for the current hour -->
+    <div th:each="booking : ${bookings}" th:if="${booking.bookingTimeStart == hour}">
+        <!-- Calculate top position and height of the booking block based on start and end times -->
+        <div class="booking-block"
+             th:style="'height:' + (${((booking.bookingTimeEnd - booking.bookingTimeStart) * 61) * 100 / 60 - 1}) + '%;'">
+            <a th:href="@{'/booking/' + ${booking.bookingId}}"> <!-- Link to booking details page -->
+                <span th:text="${booking.bookingDescription}"></span> <!-- Booking description -->
+            </a>
+        </div>
+    </div>
+</div>
+
+<form action="/" method="post">
+    <button  type="submit"> + </button>
+</form>
+<p th:if="${email}">Email send</p>
+</body>
+</html>
